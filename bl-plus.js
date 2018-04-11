@@ -197,7 +197,6 @@ function loadAnimBM(el, blplus) {
                 };
                 xhr.onreadystatechange = function() {
                     if (xhr.readyState === 4 & xhr.status === 200) {
-                        console.log(xhr);
                         callback(xhr.responseText);
                     } else {
                         console.error(xhr.statusText);
@@ -260,8 +259,6 @@ function setBodymovinAnim(el, animData, animInstanceName, blplus) {
 
     if (animData === undefined)
         return console.error('animData is not JSON / undefined');
-
-    // var animInstanceName = validAnimName(animDataName, blplus);
 
     var optionsAnim = {
         container: el,
