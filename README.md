@@ -20,24 +20,24 @@ by default it will look in the `assets/js/anims` folder
 *(if you're not using custom file path method below).*
 
 To go further, i added some more options:
-- **Custom file path**
-`[data-blp-file="http://test.com/path/to/my/animation.json"]`
-- **Images** *(Sometimes you have non-vector images in an exported animation, images are stored inside an object with name and file path as properties)*
-`[data-blp-images="{'Calque_0':'/path/to/the/image/Calque_0.png','Calque_1':'/path/to/the/image/Calque_01.png'}"]`
-- **Loop** setting *(Default: false)*
-`[data-blp-loop="false"]`
+- **Custom file path**  
+`[data-blp-file="http://url.com/path/to/my/animation.json"]`
+- **Images** *(Sometimes you have non-vector images in an exported animation, images are stored inside an object with name and file path as properties)*  
+`[data-blp-images="{'Calque_0':'http://url.com/path/to/the/image/Calque_0.png','Calque_1':'http://url.com/path/to/the/image/Calque_01.png'}"]`
+- **Loop** setting *(Default: false)*  
+`[data-blp-loop="false"]`  
 (true, false)
-- **Autoplay** setting *(Default: view)*
-`[data-blp-autoplay="view"]`
+- **Autoplay** setting *(Default: view)*  
+`[data-blp-autoplay="view"]`  
 (true, false, view)
-- **Speed** setting *(Default: 1)*
-`[data-blp-speed="1"]`
+- **Speed** setting *(Default: 1)*  
+`[data-blp-speed="1"]`  
 (negative value for reverse play)
-- **Lazyload** setting *(Default: true)*
-`[data-blp-lazyload="true"]`
+- **Lazyload** setting *(Default: true)*  
+`[data-blp-lazyload="true"]`  
 (true, false)
-- **Preserve Ratio** svg setting *(Default: true)*
-`[data-blp-preserve-ratio="true"]`
+- **Preserve Ratio** svg setting *(Default: true)*  
+`[data-blp-preserve-ratio="true"]`  
 (true, false)
 ## Advanced Usage
 BLP is also making a global variable in the DOM "`blplus`" to store all the animations instances of a page (type "`blplus`" in your console).
