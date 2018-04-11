@@ -175,7 +175,7 @@ function loadAnimBM(el, blplus) {
                 })
                 /** La requête n'a pas abouti */
                 .catch(function(error) {
-                    console.log('Fetch erreur: ' + error.message);
+                    console.log('Fetch - error: ' + error.message);
                 });
         /** Fallback avec jQuery ajax */
         } else if (self.jQuery) {
