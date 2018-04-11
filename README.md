@@ -19,8 +19,8 @@ It's using this element as wrapper for the animation.
 To go further, i added some more options:
 - **File path** *(Default: "assets/js/anims/")*
 `[data-blp-file="/path/to/my/animation.json"]`
-- **Images** *(Sometimes you have non-vector images in an exported animation)*
-`[data-blp-images="{'Calque_0':'/path/to/the/image/Calque_0.png'}"]`
+- **Images** *(Sometimes you have non-vector images in an exported animation, images are stored inside an object with name and file path as properties)*
+`[data-blp-images="{'Calque_0':'/path/to/the/image/Calque_0.png','Calque_1':'/path/to/the/image/Calque_01.png'}"]`
 - **Loop** setting *(Default: false)*
 `[data-blp-loop="false"]`
 (true, false)
@@ -38,7 +38,7 @@ To go further, i added some more options:
 (true, false)
 ## Advanced Usage
 BLP is also making a global variable in the DOM "`blplus`" to store all the animations instances of a page (type "`blplus`" in your console).
-Useful if you need to tweek even more some animations, to use them as transition of a page for example, you might need to stop or play an animation at a specific time.
+Useful if you need to tweak even more some animations, to use them as transition of a page for example, you might need to stop or play an animation at a specific time.
 You can do it like this in javascript: `blplus.my_transition_animation.instance.goToAndPlay(0)`
 ## Contributing
 1. Fork it!

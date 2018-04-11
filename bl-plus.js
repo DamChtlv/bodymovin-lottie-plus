@@ -109,7 +109,7 @@ function loadAnimBM(el, blplus) {
          */
         var animPrefix  = '/assets/js/anims/',
             // animName    = el.dataset.blp,
-            animPath    = theme_url + animPrefix + animInstanceName + '.json',
+            animPath    = window.location.origin + animPrefix + animInstanceName + '.json',
             result;
 
         /**
