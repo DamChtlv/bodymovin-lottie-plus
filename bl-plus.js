@@ -377,17 +377,21 @@ window.onload = function() {
         /** Animations in the DOM */
         var animations = document.querySelectorAll('[data-blp]');
 
-        /** Classic window Event Listener */
         animations.forEach(function(el) {
-            // console.log(el.dataset.blpLazyload);
             if (el.dataset.blpLazyload !== undefined && el.dataset.blpLazyload == "false") {
                 loadAnimBM(el, blplus);
-            } else if (self.scrollbar !== undefined) {
+            }
+            if (isAnyPartOfElementInViewport(el)) {
+                loadAnimBM(el, blplus);
+            }
+            /** Smooth Scroll Event Listener (optional) */
+            if (self.scrollbar !== undefined) {
                 scrollbar.addListener(function isInView(status) {
                     if (scrollbar.isVisible(el)) {
                         loadAnimBM(el, blplus);
                     }
                 });
+            /** Classic window Event Listener */
             } else {
                 self.addEventListener("scroll resize", function() {
                     if (isAnyPartOfElementInViewport(el)) {
