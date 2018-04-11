@@ -107,9 +107,9 @@ function loadAnimBM(el, blplus) {
         /**
          *  On récupère par défaut les anims dans assets
          */
-        var animPrefix  = '/assets/js/anims/',
-            // animName    = el.dataset.blp,
-            animPath    = window.location.origin + animPrefix + animInstanceName + '.json',
+        var animPrefix      = '/assets/js/anims/',
+            animFileName    = el.dataset.blp,
+            animPath        = window.location.href + animPrefix + animFileName + '.json',
             result;
 
         /**
