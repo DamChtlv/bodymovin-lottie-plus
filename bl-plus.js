@@ -1,7 +1,7 @@
 /**
  *  Variable to toggle debug mode
  */
-var debugMode = true;
+var debugMode = false;
 
 /**
  *  Check if the dom element is just barely visible.
