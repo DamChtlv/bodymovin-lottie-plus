@@ -381,7 +381,7 @@ window.onload = function() {
 
         animations.forEach(function(el) {
             if (el.dataset.blpLazyload !== undefined && el.dataset.blpLazyload == "false") {
-                loadAnimBM(el, blplus);
+                return loadAnimBM(el, blplus);
             }
             if (isAnyPartOfElementInViewport(el)) {
                 loadAnimBM(el, blplus);
