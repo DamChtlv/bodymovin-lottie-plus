@@ -15,10 +15,13 @@ Here's an example of the basic integration process:
 
 BLP is looking for the `[data-blp]` attribute to load. 
 It's using this element as wrapper for the animation.
+The animation name and json file name needs to be the same because
+by default it will look in the `assets/js/anims` folder
+*(if you're not using custom file path method below).*
 
 To go further, i added some more options:
-- **File path** *(Default: "assets/js/anims/")*
-`[data-blp-file="/path/to/my/animation.json"]`
+- **Custom file path**
+`[data-blp-file="http://test.com/path/to/my/animation.json"]`
 - **Images** *(Sometimes you have non-vector images in an exported animation, images are stored inside an object with name and file path as properties)*
 `[data-blp-images="{'Calque_0':'/path/to/the/image/Calque_0.png','Calque_1':'/path/to/the/image/Calque_01.png'}"]`
 - **Loop** setting *(Default: false)*
