@@ -50,6 +50,7 @@ You can do it like this in javascript: `blplus.my_transition_animation.instance.
 - 1.0 : Added 'loop', 'autoplay', 'file', 'speed', 'lazyload', 'images', 'preserve ratio' features.
 #### Features to expect in the future:
 - Cache (to prevent loading multiple times the same file for differents animations instances)
+- More triggers (like click or hover on the wrapper animation for example)
 - WordPress plugin
 ## Credits
 - DamChtlv
