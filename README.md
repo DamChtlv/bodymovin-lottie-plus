@@ -7,7 +7,7 @@ Add this to your html:
 
 `<script src="bl-plus.js" type="text/javascript"></script>`
 
-(and be sure to have bodymovin / lottie loaded in your html as well)
+(and be sure to have bodymovin/bodymovin-light/lottie loaded in your html as well)
 ## Usage
 Here's an example of the basic integration process:
 
