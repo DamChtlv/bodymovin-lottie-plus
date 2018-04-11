@@ -102,7 +102,7 @@ function loadAnimBM(el, blplus) {
          *  On vérifie que le nom d'une anim est présent dans [data-blp]
          */
         if (!el.dataset.blp.length)
-            return console.error('Missing animation name in data-anim attribute : [data-anim="example-anim"]');
+            return console.error('Missing animation name in data-blp attribute : [data-blp="example-anim"]');
 
         /**
          *  On récupère par défaut les anims dans assets
@@ -361,7 +361,7 @@ function setBodymovinAnim(el, animData, animInstanceName, blplus) {
     if (el.dataset.blpImages !== undefined && el.dataset.blpImages.length) {
         animImagesFound = true;
     } else if (el.dataset.blpImages !== undefined && el.dataset.blpImages.length === 0) {
-        console.error('Missing image(s) file name and path in data-anim-images attribute as JSON format: [data-anim-images="{"my-image":"http://web.test/my-image.png"}"]');
+        console.error('Missing image(s) file name and path in data-blp-images attribute as JSON format: [data-blp-images="{"my-image":"http://web.test/my-image.png"}"]');
     }
 
 }
