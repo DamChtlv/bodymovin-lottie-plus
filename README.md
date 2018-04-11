@@ -18,6 +18,7 @@ It's using this element as wrapper for the animation.
 
 To go further, i added some more options:
 - **File path** *(Default: "assets/js/anims/")* `[data-blp-file="/path/to/my/animation.json"]`
+- **Images** *(Sometimes you have non-vector images in an exported animation)* `[data-blp-images="{'Calque_0':'/assets/img/Calque_0.png'}"]`
 - **Loop** setting *(Default: false)* `[data-blp-loop="false"]`
 (true, false)
 - **Autoplay** setting *(Default: view)* `[data-blp-autoplay="view"]`
@@ -37,7 +38,7 @@ You can do it like this in javascript: `blplus.my_transition_animation.instance.
 4. Push to the branch: `git push origin my-new-feature`
 5. Submit a pull request :)
 ## History
-- 1.0 : Added "loop", "autoplay", "file", "speed", "lazyload" settings.
+- 1.0 : Added "loop", "autoplay", "file", "speed", "lazyload", "images" features.
 ## Credits
 - DamChtlv
 ## License
