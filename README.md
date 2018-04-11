@@ -17,15 +17,24 @@ BLP is looking for the `[data-blp]` attribute to load.
 It's using this element as wrapper for the animation.
 
 To go further, i added some more options:
-- **File path** *(Default: "assets/js/anims/")* `[data-blp-file="/path/to/my/animation.json"]`
-- **Images** *(Sometimes you have non-vector images in an exported animation)* `[data-blp-images="{'Calque_0':'/assets/img/Calque_0.png'}"]`
-- **Loop** setting *(Default: false)* `[data-blp-loop="false"]`
+- **File path** *(Default: "assets/js/anims/")*
+`[data-blp-file="/path/to/my/animation.json"]`
+- **Images** *(Sometimes you have non-vector images in an exported animation)*
+`[data-blp-images="{'Calque_0':'/path/to/the/image/Calque_0.png'}"]`
+- **Loop** setting *(Default: false)*
+`[data-blp-loop="false"]`
 (true, false)
-- **Autoplay** setting *(Default: view)* `[data-blp-autoplay="view"]`
+- **Autoplay** setting *(Default: view)*
+`[data-blp-autoplay="view"]`
 (true, false, view)
-- **Speed** setting *(Default: 1)* `[data-blp-speed="1"]`
+- **Speed** setting *(Default: 1)*
+`[data-blp-speed="1"]`
 (negative value for reverse play)
-- **Lazyload** setting *(Default: true)* `[data-blp-lazyload="true"]`
+- **Lazyload** setting *(Default: true)*
+`[data-blp-lazyload="true"]`
+(true, false)
+- **Preserve Ratio** svg setting *(Default: true)*
+`[data-blp-preserve-ratio="true"]`
 (true, false)
 ## Advanced Usage
 BLP is also making a global variable in the DOM "`blplus`" to store all the animations instances of a page (type "`blplus`" in your console).
@@ -38,7 +47,9 @@ You can do it like this in javascript: `blplus.my_transition_animation.instance.
 4. Push to the branch: `git push origin my-new-feature`
 5. Submit a pull request :)
 ## History
-- 1.0 : Added "loop", "autoplay", "file", "speed", "lazyload", "images" features.
+- 1.0 : Added 'loop', 'autoplay', 'file', 'speed', 'lazyload', 'images', 'preserve ratio' features.
+#### Features to expect in the future:
+- Cache (to prevent loading multiple times the same file for differents animations instances)
 ## Credits
 - DamChtlv
 ## License
