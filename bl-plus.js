@@ -39,7 +39,7 @@ function loadAnimBM(el, blplus) {
     el.classList.add('loading');
 
     if (el === undefined) return console.error('Missing DOM element as argument');
-    if (el.dataset.blp === undefined) return console.error('Missing [data-anim] attribute on element');
+    if (el.dataset.blp === undefined) return console.error('Missing [data-blp] attribute on element');
     if (blplus === undefined) return console.error("blplus is undefined");
 
     /**
@@ -99,7 +99,7 @@ function loadAnimBM(el, blplus) {
     function getAnimData(el, animInstanceName, blplus) {
 
         /**
-         *  On vérifie que le nom d'une anim est présent dans [data-anim]
+         *  On vérifie que le nom d'une anim est présent dans [data-blp]
          */
         if (!el.dataset.blp.length)
             return console.error('Missing animation name in data-anim attribute : [data-anim="example-anim"]');
@@ -375,7 +375,7 @@ window.onload = function() {
             blplus = [];
 
         /** Animations in the DOM */
-        var animations = document.querySelectorAll('[data-anim]');
+        var animations = document.querySelectorAll('[data-blp]');
 
         /** Classic window Event Listener */
         animations.forEach(function(el) {

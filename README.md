@@ -17,7 +17,7 @@ BLP is looking for the `[data-blp]` attribute to load.
 It's using this element as wrapper for the animation.
 
 To go further, i added some more options:
-- **File path** *(Default: "js/anims/")* `[data-blp-file="/path/to/my/animation.json"]`
+- **File path** *(Default: "assets/js/anims/")* `[data-blp-file="/path/to/my/animation.json"]`
 - **Loop** setting *(Default: false)* `[data-blp-loop="false"]`
 (true, false)
 - **Autoplay** setting *(Default: view)* `[data-blp-autoplay="view"]`
