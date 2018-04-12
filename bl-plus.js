@@ -182,7 +182,7 @@ function loadAnimBM(el, blplus) {
                 })
                 /** La requête n'a pas abouti */
                 .catch(function(error) {
-                    console.log('Fetch - error: ' + error.message);
+                    console.error('Fetch - error: ' + error.message);
                 });
         /** Fallback avec jQuery ajax */
         } else if (self.jQuery) {
@@ -317,7 +317,7 @@ function setBodymovinAnim(el, animData, animInstanceName, blplus) {
                                     if ((/\.(gif|jpe?g|tiff|png|webp|apng)$/i).test(animsImages[animImage])) {
                                         e.p = animsImages[animImage];
                                     } else {
-                                        return console.warn(animsImages[animImage] + " isn't an image.");
+                                        return console.error(animsImages[animImage] + " isn't an image.");
                                     }
                                 }
                             }
