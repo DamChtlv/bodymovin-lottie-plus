@@ -302,21 +302,21 @@ function setBodymovinAnim(el, animData, animInstanceName, blplus) {
                  *  Remove assetsPath & add good links to images
                  *  then restart animation instance
                  */
-                if (blplus[anim].instance.assets.length) {
+                if (blplus[anim].instance.assets.length && animImagesFound) {
                     blplus[anim].instance.assets.forEach(function(e) {
-                        e.u = "";
-                        if (animImagesFound) {
+                        if (e.id.match("image")) {
+                            e.u = "";
                             var animsImages = JSON.parse(el.dataset.blpImages);
                             for (var animImage in animsImages) {
                                 if (e.p.match(animImage)) {
                                     e.p = animsImages[animImage];
                                 }
                             }
-                            blplus[anim].instance.destroy();
-                            blplus[anim].instance = bodymovin.loadAnimation(optionsAnim);
-                            blplus[anim].instance.setSpeed(animSpeed);
                         }
                     });
+                    blplus[anim].instance.destroy();
+                    blplus[anim].instance = bodymovin.loadAnimation(optionsAnim);
+                    blplus[anim].instance.setSpeed(animSpeed);
                 }
 
                 /** Set playing mode of the animation instance */
