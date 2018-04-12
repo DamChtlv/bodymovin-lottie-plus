@@ -123,6 +123,14 @@ function loadAnimBM(el, blplus) {
             }
         }
 
+        /** Check for animations images */
+        var animImagesFound = false;
+        if (el.dataset.blpImages !== undefined && el.dataset.blpImages.length) {
+            animImagesFound = true;
+        } else if (el.dataset.blpImages !== undefined && el.dataset.blpImages.length === 0) {
+            console.error('Missing image(s) file name and path in data-blp-images attribute as JSON format: [data-blp-images="{"my-image":"http://web.test/my-image.png"}"]');
+        }
+
         /**
          *  CACHE
          *  On vérifie que le fichier de l'anim n'est pas déjà chargée
@@ -146,6 +154,19 @@ function loadAnimBM(el, blplus) {
         } */
         
         /**
+         *  URL API (no IE 11 support without polyfill)
+         *  polyfill: https://github.com/github/url-polyfill/blob/master/url.js
+         */
+        var animUrl;
+        if (self.location.protocol === "file:") {
+            alert("[BL+] Don't open directly html file in the browser, it won't work for security reasons. Please access the html document through real url, vhost or localhost.");
+        } else if (self.URL) {
+            animUrl = new URL(animPath);
+        } else {
+            animUrl = animPath;
+        }
+
+        /**
          *  FETCH API (no IE 11 support without polyfill)
          *  polyfill: https://github.com/github/fetch
          */
@@ -163,6 +184,25 @@ function loadAnimBM(el, blplus) {
 
                         /** We format response data as JSON format */
                         response.json().then(function(response) {
+
+                            /** Remove assetsPath & add correct links to images from the response */
+                            if (response.assets !== undefined && response.assets.length && animImagesFound) {
+                                response.assets.forEach(function(e) {
+                                    if (e.id.match("image")) {
+                                        e.u = "";
+                                        var animsImages = JSON.parse(el.dataset.blpImages);
+                                        for (var animImage in animsImages) {
+                                            if (e.p.match(animImage)) {
+                                                if ((/\.(gif|jpe?g|tiff|png|webp|apng)$/i).test(animsImages[animImage])) {
+                                                    e.p = animsImages[animImage];
+                                                } else {
+                                                    return console.error(animsImages[animImage] + " isn't an image.");
+                                                }
+                                            }
+                                        }
+                                    }
+                                });
+                            }
                             
                             /**
                              *  We check if the file is a valid json bodymovin / lottie file using FileReader API
