@@ -1,6 +1,4 @@
-/**
- *  Variable to toggle debug mode
- */
+/** Variable to toggle debug mode */
 var debugMode = false;
 
 /**
@@ -32,9 +30,7 @@ function isAnyPartOfElementInViewport(el) {
  */
 function loadAnimBM(el, blplus) {
 
-    /**
-     *  Check if animation is already loading / loaded.
-     */
+    /** Check if animation is already loading / loaded. */
     if (el.classList.contains('loaded') || el.classList.contains('loading')) return;
     el.classList.add('loading');
 
@@ -98,23 +94,17 @@ function loadAnimBM(el, blplus) {
      */
     function getAnimData(el, animInstanceName, blplus) {
 
-        /**
-         *  On vérifie que le nom d'une anim est présent dans [data-blp]
-         */
+        /** On vérifie que le nom d'une anim est présent dans [data-blp] */
         if (!el.dataset.blp.length)
             return console.error('Missing animation name in data-blp attribute : [data-blp="example-anim"]');
 
-        /**
-         *  On récupère par défaut les anims dans assets
-         */
+        /** On récupère par défaut les anims dans assets */
         var animPrefix      = '/assets/js/anims/',
             animFileName    = el.dataset.blp,
             animPath        = window.location.href + animPrefix + animFileName + '.json',
             result;
 
-        /**
-         *  On privilégie le lien direct du fichier si il est présent en data attribute
-         */
+        /** On privilégie le lien direct du fichier si il est présent en data attribute */
         if (el.dataset.blpFile !== undefined) {
             if ((/\.(json)$/i).test(el.dataset.blpFile)) {
                 animPath = el.dataset.blpFile;
@@ -374,31 +364,6 @@ function setBodymovinAnim(el, animData, animInstanceName, blplus) {
                 el.classList.replace('loading','loaded');
                 el.classList.add(animClassName);
 
-                /**
-                 *  Remove assetsPath & add correct links to images
-                 *  then restart animation instance
-                 */
-                if (blplus[anim].instance.assets !== undefined && blplus[anim].instance.assets.length && animImagesFound) {
-                    blplus[anim].instance.assets.forEach(function(e) {
-                        if (e.id.match("image")) {
-                            e.u = "";
-                            var animsImages = JSON.parse(el.dataset.blpImages);
-                            for (var animImage in animsImages) {
-                                if (e.p.match(animImage)) {
-                                    if ((/\.(gif|jpe?g|tiff|png|webp|apng)$/i).test(animsImages[animImage])) {
-                                        e.p = animsImages[animImage];
-                                    } else {
-                                        return console.error(animsImages[animImage] + " isn't an image.");
-                                    }
-                                }
-                            }
-                        }
-                    });
-                    blplus[anim].instance.destroy();
-                    blplus[anim].instance = bodymovin.loadAnimation(optionsAnim);
-                    blplus[anim].instance.setSpeed(animSpeed);
-                }
-
                 /** Set playing mode of the animation instance */
                 if (autoplayMode === true) {
                     blplus[anim].instance.goToAndPlay(0);
@@ -431,16 +396,6 @@ function setBodymovinAnim(el, animData, animInstanceName, blplus) {
             });
 
         }
-    }
-
-    /**
-     *  Check for animations images
-     */
-    var animImagesFound = false;
-    if (el.dataset.blpImages !== undefined && el.dataset.blpImages.length) {
-        animImagesFound = true;
-    } else if (el.dataset.blpImages !== undefined && el.dataset.blpImages.length === 0) {
-        console.error('Missing image(s) file name and path in data-blp-images attribute as JSON format: [data-blp-images="{"my-image":"http://web.test/my-image.png"}"]');
     }
 
 }
