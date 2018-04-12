@@ -299,17 +299,21 @@ function setBodymovinAnim(el, animData, animInstanceName, blplus) {
                 el.classList.add(animClassName);
 
                 /**
-                 *  Remove assetsPath & add good links to images
+                 *  Remove assetsPath & add correct links to images
                  *  then restart animation instance
                  */
-                if (blplus[anim].instance.assets.length && animImagesFound) {
+                if (blplus[anim].instance.assets !== undefined && blplus[anim].instance.assets.length && animImagesFound) {
                     blplus[anim].instance.assets.forEach(function(e) {
                         if (e.id.match("image")) {
                             e.u = "";
                             var animsImages = JSON.parse(el.dataset.blpImages);
                             for (var animImage in animsImages) {
                                 if (e.p.match(animImage)) {
-                                    e.p = animsImages[animImage];
+                                    if ((/\.(gif|jpe?g|tiff|png|webp|apng)$/i).test(animsImages[animImage])) {
+                                        e.p = animsImages[animImage];
+                                    } else {
+                                        return console.warn(animsImages[animImage] + " isn't an image.");
+                                    }
                                 }
                             }
                         }
