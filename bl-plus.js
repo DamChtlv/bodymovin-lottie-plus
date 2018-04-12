@@ -146,44 +146,74 @@ function loadAnimBM(el, blplus) {
         } */
         
         /**
-         *  URL API (no IE 11 support)
-         *  polyfill: https://github.com/github/url-polyfill/blob/master/url.js
-         */
-        var animUrl;
-        if (self.location.protocol === "file:") {
-            alert("[BL+] Don't open directly html file in the browser, it won't work for security reasons. Please access the html document through real url, vhost or localhost.");
-        } else if (self.URL) {
-            animUrl = new URL(animPath);
-        } else {
-            animUrl = animPath;
-        }
-
-        /**
-         *  FETCH API (no IE 11 support)
+         *  FETCH API (no IE 11 support without polyfill)
          *  polyfill: https://github.com/github/fetch
          */
-        /** Si le navigateur supporte fetch */
+        /** Check if browser has support for fetch */
         if (self.fetch) {
-            /** On déclare ce qu'on veut charger */
+
+            /** Set what we request */
             fetch(animUrl)
-                /** On lance la requête */
+
+                /** Launch the request */
                 .then(function(response) {
-                    /** On vérifie que la requête a abouti */
+
+                    /** Check if the request is working */
                     if (response.ok) {
-                        /** On transforme les data reçues en json */
+
+                        /** We format response data as JSON format */
                         response.json().then(function(response) {
-                            /** On fait ce qu'on veut avec nos data maintenant */
-                            blplus[animInstanceName].file = animPath;
-                            setBodymovinAnim(el, response, animInstanceName, blplus);
+                            
+                            /**
+                             *  We check if the file is a valid json bodymovin / lottie file using FileReader API
+                             *  https://medium.com/the-everyday-developer/detect-file-mime-type-using-magic-numbers-and-javascript-16bc513d4e1e
+                             */
+                            if (self.FileReader) {
+                                var jsonse = JSON.stringify(response);
+                                var file = new Blob([jsonse], {type: "application/json"});
+                                var filereader = new FileReader();
+                                var blob = file.slice(0, 4);
+                                filereader.readAsArrayBuffer(blob);
+                                filereader.onloadend = function(evt) {
+                                    if (evt.target.readyState === FileReader.DONE) {
+                                        var uint = new Uint8Array(evt.target.result);
+                                        var bytes = [];
+                                        uint.forEach(function(byte) {
+                                            bytes.push(byte.toString(16));
+                                        });
+                                        var hex = bytes.join('').toUpperCase();
+                                        /**
+                                         *  7B227622 is the ArrayBuffer signature of JSON Bodymovin / Lottie files
+                                         *  https://jsfiddle.net/0t27goLg/
+                                         */
+                                        if (hex !== "7B227622") {
+                                            throw new Error("It's not a conform bodymovin / lottie JSON file.");
+                                            return response.error();
+                                        }
+                                        /** File is 100% legit, we can go on. */
+                                        blplus[animInstanceName].file = animPath;
+                                        setBodymovinAnim(el, response, animInstanceName, blplus);
+                                    }
+                                }
+                            /** We can't be sure the file is 100% secure but we still load it */
+                            } else {
+                                if (debugMode) console.warn("FileReader API not available. Can't be 100% sure the file is really JSON.");
+                                blplus[animInstanceName].file = animPath;
+                                setBodymovinAnim(el, response, animInstanceName, blplus);
+                            }
+
                         });
+
                     } else {
                         if (debugMode) console.error("Fetch - can't find : " + animUrl.pathname);
                     }
                 })
+
                 /** La requête n'a pas abouti */
                 .catch(function(error) {
-                    console.error('Fetch - error: ' + error.message);
+                    console.log('Fetch - error: ' + error.message);
                 });
+
         /** Fallback avec jQuery ajax */
         } else if (self.jQuery) {
             $.ajax({
@@ -192,6 +222,7 @@ function loadAnimBM(el, blplus) {
             }).done(function(data) {
                 setBodymovinAnim(el, data, animInstanceName, blplus);
             });
+            
         /** Fallback very old XHR */
         } else {
             function loadFile(url, callback) {
