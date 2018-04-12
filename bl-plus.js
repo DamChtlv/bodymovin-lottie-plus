@@ -115,8 +115,13 @@ function loadAnimBM(el, blplus) {
         /**
          *  On privilégie le lien direct du fichier si il est présent en data attribute
          */
-        if (el.dataset.blpFile !== undefined)
-            animPath = el.dataset.blpFile;
+        if (el.dataset.blpFile !== undefined) {
+            if ((/\.(json)$/i).test(el.dataset.blpFile)) {
+                animPath = el.dataset.blpFile;
+            } else {
+                return console.error(el.dataset.blpFile + " isn't a JSON file.");
+            }
+        }
 
         /**
          *  CACHE
