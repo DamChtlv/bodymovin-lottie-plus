@@ -11,10 +11,16 @@ Add this to your html:
 
 (and be sure to have bodymovin/bodymovin-light/lottie loaded in your html as well)
 ## Usage
-Here's an example of the basic integration process:
+Here's a basic example:
 
 ```
 <div data-blp="balloon-animation"></div>
+```
+
+An advanced example:
+
+```
+<div data-blp="balloon-animation" data-blp-loop="true" data-blp-preserve-ratio="false" data-blp-speed="2.5" data-blp-autoplay="false"></div>
 ```
 
 BLP is looking for the `[data-blp]` attribute to load. 
