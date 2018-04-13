@@ -69,7 +69,9 @@ To manage the speed of the animation *(use negative value to play backwards)*
 
 ### **Lazyload**
 To lazyload the data json file.  
-`[data-blp-lazyload="true"]`
+```
+[data-blp-lazyload="true"]
+```
 - Type: `boolean`
 - Default: `true`  
 - Options: `true/false` 
