@@ -62,7 +62,7 @@ To autoplay the animation using differents triggers
 ### **Speed**  
 To manage the speed of the animation *(use negative value to play backwards)*  
 ```
-data-blp-speed="1"]
+[data-blp-speed="1"]
 ```
 - Type: `integer`
 - Default: `1`
