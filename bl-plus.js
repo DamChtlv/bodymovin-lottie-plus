@@ -367,7 +367,7 @@ function setBodymovinAnim(el, animData, animInstanceName, blplus) {
 
     /** We check when the anim is loaded. */
     blplus[animInstanceName].instance.addEventListener('DOMLoaded', function() {
-        if (debugMode) console.log('[BL+] ' + animInstanceName + ' is loaded.');
+        if (debugMode) console.log('%c[BL+] ' + animInstanceName + ' is Loaded ✓', 'color: #7ED321;');
         var animClassName = animInstanceName.replace(/_/gi, "-");
         el.classList.replace('loading','loaded');
         el.classList.add(animClassName);
@@ -388,12 +388,12 @@ function setBodymovinAnim(el, animData, animInstanceName, blplus) {
                 scrollbar.addListener(function isInView(status) {
                     if (scrollbar.isVisible(el)) {
                         if (blplus[animInstanceName].instance.isPaused) {
-                            if (debugMode) console.log('[BL+] ' + animInstanceName + ' is playing.');
+                            if (debugMode) console.log('%c[BL+] ' + animInstanceName + ' is Playing ►', 'color: #0caeff;');
                             blplus[animInstanceName].instance.play();
                         }
                     } else {
                         if (!blplus[animInstanceName].instance.isPaused) {
-                            if (debugMode) console.log('[BL+] ' + animInstanceName + ' is paused.');
+                            if (debugMode) console.log('%c[BL+] ' + animInstanceName + ' is Paused ■', 'color: #FFD806;');
                             blplus[animInstanceName].instance.pause();
                         }
                     }
@@ -401,12 +401,12 @@ function setBodymovinAnim(el, animData, animInstanceName, blplus) {
                 self.addEventListener("orientationchange resize", function() {
                     if (isAnyPartOfElementInViewport(el)) {
                         if (blplus[animInstanceName].instance.isPaused) {
-                            if (debugMode) console.log('[BL+] ' + animInstanceName + ' is playing.');
+                            if (debugMode) console.log('%c[BL+] ' + animInstanceName + ' is Playing ►', 'color: #0caeff;');
                             blplus[animInstanceName].instance.play();
                         }
                     } else {
                         if (!blplus[animInstanceName].instance.isPaused) {
-                            if (debugMode) console.log('[BL+] ' + animInstanceName + ' is paused.');
+                            if (debugMode) console.log('%c[BL+] ' + animInstanceName + ' is Paused ■', 'color: #FFD806;');
                             blplus[animInstanceName].instance.pause();
                         }
                     }
@@ -418,12 +418,12 @@ function setBodymovinAnim(el, animData, animInstanceName, blplus) {
                 self.addEventListener("orientationchange scroll resize", function() {
                     if (isAnyPartOfElementInViewport(el)) {
                         if (blplus[animInstanceName].instance.isPaused) {
-                            if (debugMode) console.log('[BL+] ' + animInstanceName + ' is playing.');
+                            if (debugMode) console.log('%c[BL+] ' + animInstanceName + ' is Playing ►', 'color: #0caeff;');
                             blplus[animInstanceName].instance.play();
                         }
                     } else {
                         if (!blplus[animInstanceName].instance.isPaused) {
-                            if (debugMode) console.log('[BL+] ' + animInstanceName + ' is paused.');
+                            if (debugMode) console.log('%c[BL+] ' + animInstanceName + ' is Paused ■', 'color: #FFD806;');
                             blplus[animInstanceName].instance.pause();
                         }
                     }
@@ -473,7 +473,7 @@ window.onload = function() {
         });
 
         if (debugMode) {
-            console.log("[BL+] Animations in the page:");
+            console.log("[BL+] Animations stored:");
             console.log(blplus);
         }
 
