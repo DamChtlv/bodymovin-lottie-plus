@@ -156,6 +156,16 @@ function loadAnimBM(el, blplus) {
             animUrl = animPath;
         }
 
+        /** Prevent loading of a file that has already been loaded in the DOM */
+        for (var anim in blplus) {
+            if (blplus[anim].file === animUrl) {
+                if (debugMode) console.warn('[BL+] Data for ' + animInstanceName + ' is already loaded.');
+                setBodymovinAnim(el, blplus[anim].instance.animationData, animInstanceName, blplus);
+                blplus[animInstanceName].file = blplus[anim].file;
+                return;
+            }
+        }
+
         /**
          *  FETCH API (no IE 11 support without polyfill)
          *  polyfill: https://github.com/github/fetch
