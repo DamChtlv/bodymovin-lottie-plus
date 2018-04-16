@@ -39,6 +39,22 @@ function loadAnimBM(el, blplus) {
     if (blplus === undefined) return console.error("blplus is undefined");
 
     /**
+     * If same animation / element is loaded again, we delete the old one.
+     * (easier to maintain)
+     */
+    if (Object.keys(blplus).length > 0) {
+        for (var anim in blplus) {
+            if (blplus[anim].instance !== undefined) {
+                if (blplus[anim].instance.wrapper.getAttribute("data-blp") === el.getAttribute("data-blp")) {
+                    if (debugMode) console.warn('[BL+] Animation ' + anim + ' already exists on this element. Deleting the old one.');
+                    blplus[anim].instance.destroy();
+                    delete blplus[anim];
+                }
+            }
+        }
+    }
+
+    /**
      *  On sanitize le nom de l'anim passé en argument
      *  @param {string} animName 
      *  @param {[]} blplus Array to store animations instance name
@@ -462,11 +478,16 @@ window.onload = function() {
                         loadAnimBM(el, blplus);
                     }
                 });
+                self.addEventListener("orientationchange resize", function() {
+                    if (isAnyPartOfElementInViewport(el)) {
+                        return loadAnimBM(el, blplus);
+                    }
+                });
             /** Classic window Event Listener */
             } else {
-                self.addEventListener("scroll resize", function() {
+                self.addEventListener("orientationchange scroll resize", function() {
                     if (isAnyPartOfElementInViewport(el)) {
-                        loadAnimBM(el, blplus);
+                        return loadAnimBM(el, blplus);
                     }
                 });
             }
