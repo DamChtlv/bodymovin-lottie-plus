@@ -350,54 +350,81 @@ function setBodymovinAnim(el, animData, animInstanceName, blplus) {
      *  On utilise le nom de l'anim que l'on définit comme nom de l'instance pour l'animation bodymovin
      *  ce qui nous permet d'interagir avec, plus tard, ex: algues_footer.pause();
      */
-    for (var anim in blplus) {
-        if (blplus[animInstanceName] !== undefined && anim === animInstanceName) {
-            blplus[anim].instance = bodymovin.loadAnimation(optionsAnim);
+    blplus[animInstanceName].instance = bodymovin.loadAnimation(optionsAnim);
 
-            /** Set the speed of the animation */
-            blplus[anim].instance.setSpeed(animSpeed);
+    /** Set the speed of the animation */
+    blplus[animInstanceName].instance.setSpeed(animSpeed);
 
-            /** We check when the anim is loaded. */
-            blplus[anim].instance.addEventListener('DOMLoaded', function() {
-                if (debugMode) console.log('[BL+] ' + animInstanceName + ' is loaded.');
-                var animClassName = animInstanceName.replace(/_/gi, "-");
-                el.classList.replace('loading','loaded');
-                el.classList.add(animClassName);
+    /** We check when the anim is loaded. */
+    blplus[animInstanceName].instance.addEventListener('DOMLoaded', function() {
+        if (debugMode) console.log('[BL+] ' + animInstanceName + ' is loaded.');
+        var animClassName = animInstanceName.replace(/_/gi, "-");
+        el.classList.replace('loading','loaded');
+        el.classList.add(animClassName);
 
-                /** Set playing mode of the animation instance */
-                if (autoplayMode === true) {
-                    blplus[anim].instance.goToAndPlay(0);
-                } else if (autoplayViewMode === true) {
-                    blplus[anim].instance.goToAndStop(0);
+        /** Set the speed of the animation */
+        blplus[animInstanceName].instance.setSpeed(animSpeed);
 
-                    /** SmoothScroll Event Listener (optional) */
-                    if (self.scrollbar !== undefined) {
-                        scrollbar.addListener(function isInView(status) {
-                            if (scrollbar.isVisible(el)) {
-                                blplus[anim].instance.play();
-                            } else {
-                                blplus[anim].instance.pause();
-                            }
-                        });
+        /** Set playing mode of the animation instance */
+        if (autoplayMode === true) {
+            blplus[animInstanceName].instance.goToAndPlay(0);
+        } else if (autoplayViewMode === true) {
+            // if (!blplus[animInstanceName].instance.isPaused)
+                blplus[animInstanceName].instance.goToAndStop(0);
 
-                    /** Classic window Event Listener */
+            /** SmoothScroll Event Listener (optional) */
+            if (self.scrollbar !== undefined) {
+
+                scrollbar.addListener(function isInView(status) {
+                    if (scrollbar.isVisible(el)) {
+                        if (blplus[animInstanceName].instance.isPaused) {
+                            if (debugMode) console.log('[BL+] ' + animInstanceName + ' is playing.');
+                            blplus[animInstanceName].instance.play();
+                        }
                     } else {
-                        window.addEventListener("scroll resize", function() {
-                            if (isAnyPartOfElementInViewport(el)) {
-                                blplus[anim].instance.play();
-                            } else {
-                                blplus[anim].instance.pause();
-                            }
-                        });
+                        if (!blplus[animInstanceName].instance.isPaused) {
+                            if (debugMode) console.log('[BL+] ' + animInstanceName + ' is paused.');
+                            blplus[animInstanceName].instance.pause();
+                        }
                     }
-                } else {
-                    blplus[anim].instance.goToAndStop(0);
-                }
-            });
+                });
+                self.addEventListener("orientationchange resize", function() {
+                    if (isAnyPartOfElementInViewport(el)) {
+                        if (blplus[animInstanceName].instance.isPaused) {
+                            if (debugMode) console.log('[BL+] ' + animInstanceName + ' is playing.');
+                            blplus[animInstanceName].instance.play();
+                        }
+                    } else {
+                        if (!blplus[animInstanceName].instance.isPaused) {
+                            if (debugMode) console.log('[BL+] ' + animInstanceName + ' is paused.');
+                            blplus[animInstanceName].instance.pause();
+                        }
+                    }
+                });
 
+            /** Classic window Event Listener */
+            } else {
+
+                self.addEventListener("orientationchange scroll resize", function() {
+                    if (isAnyPartOfElementInViewport(el)) {
+                        if (blplus[animInstanceName].instance.isPaused) {
+                            if (debugMode) console.log('[BL+] ' + animInstanceName + ' is playing.');
+                            blplus[animInstanceName].instance.play();
+                        }
+                    } else {
+                        if (!blplus[animInstanceName].instance.isPaused) {
+                            if (debugMode) console.log('[BL+] ' + animInstanceName + ' is paused.');
+                            blplus[animInstanceName].instance.pause();
+                        }
+                    }
+                });
+            }
+        } else {
+            if (!blplus[animInstanceName].instance.isPaused) {
+                blplus[animInstanceName].instance.goToAndStop(0);
+            }
         }
-    }
-
+    });
 }
 
 window.onload = function() {
