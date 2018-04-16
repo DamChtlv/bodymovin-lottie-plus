@@ -166,8 +166,8 @@ function loadAnimBM(el, blplus) {
         var animUrl;
         if (self.location.protocol === "file:") {
             alert("[BL+] Don't open directly html file in the browser, it won't work for security reasons. Please access the html document through real url, vhost or localhost.");
-        } else if (self.URL) {
-            animUrl = new URL(animPath);
+        } else if (self.URL && self.location.hostname !== "localhost") {
+            animUrl = new URL(animPath).href;
         } else {
             animUrl = animPath;
         }
