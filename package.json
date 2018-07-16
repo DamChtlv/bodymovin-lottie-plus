@@ -1,0 +1,26 @@
+{
+  "name": "bodymovin-lottie-plus",
+  "version": "1.1.0",
+  "description": "Helper script to integrate faster bodymovin / lottie animations in a html document.",
+  "main": "bl-plus.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DamChtlv/bodymovin-lottie-plus.git"
+  },
+  "keywords": [
+    "bodymovin",
+    "lottie",
+    "animation",
+    "helper",
+    "damchtlv"
+  ],
+  "author": "DamChtlv",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/DamChtlv/bodymovin-lottie-plus/issues"
+  },
+  "homepage": "https://github.com/DamChtlv/bodymovin-lottie-plus#readme"
+}

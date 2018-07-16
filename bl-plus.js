@@ -23,6 +23,25 @@ function isAnyPartOfElementInViewport(el) {
 }
 
 /**
+ *  Fallback call to load a file using xhr.
+ */
+function loadFile(url, callback) {
+  var xhr = new XMLHttpRequest();
+  xhr.open("GET", url, true);
+  xhr.ontimeout = function() {
+      console.error("The request for " + url + " timed out.");
+  };
+  xhr.onreadystatechange = function() {
+      if (xhr.readyState === 4 & xhr.status === 200) {
+          callback(xhr.responseText);
+      } else {
+          console.error(xhr.statusText);
+      }
+  };
+  xhr.send();
+}
+
+/**
  *  Fonction constructeur pour charger une anim bodymovin
  *  @param {string} el DOM element that contains the animation
  *  @param {[]} blplus Array to store animations instance name
@@ -31,7 +50,7 @@ function isAnyPartOfElementInViewport(el) {
 function loadAnimBM(el, blplus) {
 
     /** Check if animation is already loading / loaded. */
-    if (el.classList.contains('loaded') || el.classList.contains('loading')) return;
+    if (el.classList.contains('loaded') || el.classList.contains('loading')) return;
     el.classList.add('loading');
 
     if (el === undefined) return console.error('Missing DOM element as argument');
@@ -56,7 +75,7 @@ function loadAnimBM(el, blplus) {
 
     /**
      *  On sanitize le nom de l'anim passé en argument
-     *  @param {string} animName 
+     *  @param {string} animName
      *  @param {[]} blplus Array to store animations instance name
      */
     function validAnimName(animName, blplus) {
@@ -66,8 +85,8 @@ function loadAnimBM(el, blplus) {
         /**
          *  On check si une instance d'anim a déjà le même nom
          *  que celle qu'on s'apprête à ajouter
-         *  @param {string} animName 
-         *  @param {[]} blplus 
+         *  @param {string} animName
+         *  @param {[]} blplus
          */
         function isAnimNameTaken(animName, blplus) {
             for (var anim in blplus) {
@@ -117,8 +136,7 @@ function loadAnimBM(el, blplus) {
         /** On récupère par défaut les anims dans assets */
         var animPrefix      = '/assets/js/anims/',
             animFileName    = el.dataset.blp,
-            animPath        = window.location.href + animPrefix + animFileName + '.json',
-            result;
+            animPath        = window.location.href + animPrefix + animFileName + '.json';
 
         /** On privilégie le lien direct du fichier si il est présent en data attribute */
         if (el.dataset.blpFile !== undefined) {
@@ -158,7 +176,7 @@ function loadAnimBM(el, blplus) {
                 }
             }
         } */
-        
+
         /**
          *  URL API (no IE 11 support without polyfill)
          *  polyfill: https://github.com/github/url-polyfill/blob/master/url.js
@@ -203,61 +221,30 @@ function loadAnimBM(el, blplus) {
 
                             /** Remove assetsPath & add correct links to images from the response */
                             if (response.assets !== undefined && response.assets.length && animImagesFound) {
-                                response.assets.forEach(function(e) {
+                                for (let i = response.assets.length - 1; i > 0; i--) {
+                                    var e = response.assets[i];
                                     if (e.id.match("image")) {
                                         e.u = "";
                                         var animsImages = JSON.parse(el.dataset.blpImages);
                                         for (var animImage in animsImages) {
-                                            if (e.p.match(animImage)) {
+                                            /** Retrieve asset image name without the format part ('.png') */
+                                            var assetImgName = e.p.substr(0, e.p.length - 4);
+                                            if (animImage === assetImgName) {
                                                 if ((/\.(gif|jpe?g|tiff|png|webp|apng)$/i).test(animsImages[animImage])) {
-                                                    e.p = animsImages[animImage];
+                                                  e.p = animsImages[animImage];
                                                 } else {
-                                                    return console.error(animsImages[animImage] + " isn't an image.");
+                                                  return console.error(animsImages[animImage] + " isn't an image.");
                                                 }
+
+                                                break;
                                             }
                                         }
                                     }
-                                });
-                            }
-                            
-                            /**
-                             *  We check if the file is a valid json bodymovin / lottie file using FileReader API
-                             *  https://medium.com/the-everyday-developer/detect-file-mime-type-using-magic-numbers-and-javascript-16bc513d4e1e
-                             */
-                            if (self.FileReader) {
-                                var jsonse = JSON.stringify(response);
-                                var file = new Blob([jsonse], {type: "application/json"});
-                                var filereader = new FileReader();
-                                var blob = file.slice(0, 4);
-                                filereader.readAsArrayBuffer(blob);
-                                filereader.onloadend = function(evt) {
-                                    if (evt.target.readyState === FileReader.DONE) {
-                                        var uint = new Uint8Array(evt.target.result);
-                                        var bytes = [];
-                                        uint.forEach(function(byte) {
-                                            bytes.push(byte.toString(16));
-                                        });
-                                        var hex = bytes.join('').toUpperCase();
-                                        /**
-                                         *  7B227622 is the ArrayBuffer signature of JSON Bodymovin / Lottie files
-                                         *  https://jsfiddle.net/0t27goLg/
-                                         */
-                                        if (hex !== "7B227622") {
-                                            throw new Error("It's not a conform bodymovin / lottie JSON file.");
-                                            return response.error();
-                                        }
-                                        /** File is 100% legit, we can go on. */
-                                        blplus[animInstanceName].file = animPath;
-                                        setBodymovinAnim(el, response, animInstanceName, blplus);
-                                    }
                                 }
-                            /** We can't be sure the file is 100% secure but we still load it */
-                            } else {
-                                if (debugMode) console.warn("FileReader API not available. Can't be 100% sure the file is really JSON.");
-                                blplus[animInstanceName].file = animPath;
-                                setBodymovinAnim(el, response, animInstanceName, blplus);
                             }
 
+                            blplus[animInstanceName].file = animPath;
+                            setBodymovinAnim(el, response, animInstanceName, blplus);
                         });
 
                     } else {
@@ -274,29 +261,13 @@ function loadAnimBM(el, blplus) {
         } else if (self.jQuery) {
             $.ajax({
                 dataType: 'json',
-                url: animUrl
+                url: animUrl,
             }).done(function(data) {
                 setBodymovinAnim(el, data, animInstanceName, blplus);
             });
-            
+
         /** Fallback very old XHR */
         } else {
-            function loadFile(url, callback) {
-                var xhr = new XMLHttpRequest();
-                xhr.open("GET", url, true);
-                xhr.ontimeout = function() {
-                    console.error("The request for " + url + " timed out.");
-                };
-                xhr.onreadystatechange = function() {
-                    if (xhr.readyState === 4 & xhr.status === 200) {
-                        callback(xhr.responseText);
-                    } else {
-                        console.error(xhr.statusText);
-                    }
-                };
-                xhr.send();
-            }
-
             loadFile(animPath, function(response) {
                 blplus[animInstanceName].file = animPath;
                 setBodymovinAnim(el, JSON.parse(response), animInstanceName, blplus);
@@ -337,7 +308,7 @@ function setBodymovinAnim(el, animData, animInstanceName, blplus) {
         animSpeed = parseFloat(el.dataset.blpSpeed.replace(/,/, '.'));
 
     /**
-     *  OPTIONS - Autoplay 
+     *  OPTIONS - Autoplay
      *  @default "view"
      */
     var autoplayMode = false,
@@ -371,7 +342,7 @@ function setBodymovinAnim(el, animData, animInstanceName, blplus) {
     if (el.dataset.blpPreserveRatio !== undefined && el.dataset.blpPreserveRatio === "false") {
         optionsAnim.rendererSettings.preserveAspectRatio = 'none';
     }
-        
+
     /**
      *  On utilise le nom de l'anim que l'on définit comme nom de l'instance pour l'animation bodymovin
      *  ce qui nous permet d'interagir avec, plus tard, ex: algues_footer.pause();
